@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Article Writer</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        color: #222;
+    }
+
+    header {
+        background: #172554;
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0 0 10px;
+        font-size: 32px;
+    }
+
+    header p {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        margin-bottom: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+        margin-top: 0;
+        color: #172554;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .full {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccd1d9;
+        border-radius: 7px;
+        font-size: 15px;
+        font-family: inherit;
+    }
+
+    textarea {
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        outline: none;
+        border-color: #2563eb;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    button {
+        border: none;
+        padding: 12px 20px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .generate {
+        background: #2563eb;
+        color: white;
+    }
+
+    .copy {
+        background: #16a34a;
+        color: white;
+    }
+
+    .clear {
+        background: #64748b;
+        color: white;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    #articleOutput {
+        line-height: 1.8;
+        white-space: pre-wrap;
+    }
+
+    .article-title {
+        font-size: 28px;
+        color: #172554;
+        margin-bottom: 20px;
+    }
+
+    .seo-box {
+        background: #f1f5f9;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 25px;
+        background: #172554;
+        color: white;
+        margin-top: 40px;
+    }
+
+    @media (max-width: 700px) {
+        .grid {
+            grid-template-columns: 1fr;
+        }
+
+        .full {
+            grid-column: auto;
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Business Article Writer</h1>
+    <p>Create structured articles for businesses, websites and blogs</p>
+</header>
+
+<div class="container">
+
+    <!-- INPUT SECTION -->
+    <div class="card">
+
+        <h2>Article Information</h2>
+
+        <div class="grid">
+
+            <div class="field">
+                <label>Article Topic</label>
+                <input type="text" id="topic"
+                       placeholder="Example: Web Design for Small Businesses">
+            </div>
+
+            <div class="field">
+                <label>Business Name</label>
+                <input type="text" id="business"
+                       placeholder="Example: ABC Web Solutions">
+            </div>
+
+            <div class="field">
+                <label>Business Type</label>
+                <input type="text" id="businessType"
+                       placeholder="Example: Web Design Agency">
+            </div>
+
+            <div class="field">
+                <label>Target Location</label>
+                <input type="text" id="location"
+                       placeholder="Example: Singapore">
+            </div>
+
+            <div class="field">
+                <label>Target Audience</label>
+                <input type="text" id="audience"
+                       placeholder="Example: SMEs and business owners">
+            </div>
+
+            <div class="field">
+                <label>Article Length</label>
+                <select id="length">
+                    <option value="short">500 Words</option>
+                    <option value="medium" selected>800 Words</option>
+                    <option value="long">1200 Words</option>
+                    <option value="verylong">1500+ Words</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Writing Tone</label>
+                <select id="tone">
+                    <option>Professional</option>
+                    <option>Friendly</option>
+                    <option>Educational</option>
+                    <option>Persuasive</option>
+                    <option>Conversational</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Article Type</label>
+                <select id="articleType">
+                    <option>Informational</option>
+                    <option>How-To Guide</option>
+                    <option>Listicle</option>
+                    <option>Comparison</option>
+                    <option>Business Guide</option>
+                    <option>Tips and Advice</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label>Target Keywords</label>
+                <input type="text" id="keywords"
+                       placeholder="Example: web design, business website, Singapore web design">
+            </div>
+
+            <div class="field full">
+                <label>Important Points to Include</label>
+                <textarea id="points"
+                          placeholder="Enter products, services, benefits, statistics, features or other points you want included..."></textarea>
+            </div>
+
+            <div class="field full">
+                <label>Call to Action</label>
+                <input type="text" id="cta"
+                       placeholder="Example: Contact us today for a free consultation.">
+            </div>
+
+        </div>
+
+        <div class="buttons">
+            <button class="generate" onclick="generateArticle()">
+                Generate Article
+            </button>
+
+            <button class="clear" onclick="clearForm()">
+                Clear
+            </button>
+        </div>
+
+    </div>
+
+
+    <!-- OUTPUT SECTION -->
+    <div class="card">
+
+        <h2>Generated Article</h2>
+
+        <div id="articleOutput">
+            Your generated article will appear here.
+        </div>
+
+        <div class="buttons">
+            <button class="copy" onclick="copyArticle()">
+                Copy Article
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    Business Article Writer &copy; 2026
+</footer>
+
+
+<script>
+
+function getValue(id) {
+    return document.getElementById(id).value.trim();
+}
+
+
+function generateArticle() {
+
+    const topic = getValue("topic") || "Business Growth";
+    const business = getValue("business") || "Your Business";
+    const businessType = getValue("businessType") || "business";
+    const location = getValue("location") || "your local area";
+    const audience = getValue("audience") || "business owners";
+    const keywords = getValue("keywords") || topic;
+    const points = getValue("points") || "quality, value, customer service and professional solutions";
+    const cta = getValue("cta") || "Contact us today to learn more about our services.";
+    const tone = getValue("tone");
+    const articleType = getValue("articleType");
+    const length = getValue("length");
+
+    let wordCount;
+
+    if (length === "short") {
+        wordCount = "500";
+    } else if (length === "medium") {
+        wordCount = "800";
+    } else if (length === "long") {
+        wordCount = "1200";
+    } else {
+        wordCount = "1500+";
+    }
+
+
+    const title = createTitle(topic, articleType, location);
+
+
+    let article = "";
+
+    article += "TITLE\n";
+    article += "========================================\n\n";
+    article += title + "\n\n";
+
+    article += "SEO INFORMATION\n";
+    article += "========================================\n\n";
+
+    article += "Primary Keyword: " + keywords.split(",")[0].trim() + "\n";
+    article += "Target Location: " + location + "\n";
+    article += "Suggested Article Length: " + wordCount + " words\n";
+    article += "Writing Tone: " + tone + "\n\n";
+
+
+    article += "INTRODUCTION\n";
+    article += "========================================\n\n";
+
+    article += topic + " has become an important consideration for " +
+        audience + " looking to improve their business performance. " +
+        "As competition continues to increase, businesses need practical " +
+        "strategies that can help them attract customers, build trust and " +
+        "create long-term value.\n\n";
+
+    article += business + ", a " + businessType +
+        " serving customers in " + location +
+        ", can help businesses understand the importance of " +
+        topic.toLowerCase() +
+        " and how it can contribute to their overall business objectives.\n\n";
+
+
+    article += "WHAT IS " + topic.toUpperCase() + "?\n";
+    article += "========================================\n\n";
+
+    article += topic + " refers to the strategies, services and practices " +
+        "businesses use to improve their results and provide better value " +
+        "to their customers. A well-planned approach allows businesses to " +
+        "understand customer requirements, identify opportunities and " +
+        "develop solutions that support sustainable growth.\n\n";
+
+    article += "For businesses operating in " + location +
+        ", understanding local customer expectations can be especially " +
+        "important. Customers increasingly compare businesses online, " +
+        "research available options and look for companies that demonstrate " +
+        "experience, reliability and value.\n\n";
+
+
+    article += "WHY IS IT IMPORTANT FOR BUSINESSES?\n";
+    article += "========================================\n\n";
+
+    article += "There are several reasons why " + topic.toLowerCase() +
+        " can be valuable for modern businesses.\n\n";
+
+    article += "1. Better Customer Experience\n\n";
+
+    article += "A customer-focused approach can make it easier for " +
+        audience + " to understand products and services. Clear information, " +
+        "simple communication and reliable support can contribute to a better " +
+        "overall customer experience.\n\n";
+
+
+    article += "2. Stronger Business Visibility\n\n";
+
+    article += "Businesses need to remain visible where potential customers " +
+        "are searching for information. Creating useful content around topics " +
+        "such as " + keywords +
+        " can help businesses communicate their expertise and answer common " +
+        "customer questions.\n\n";
+
+
+    article += "3. Increased Trust\n\n";
+
+    article += "Professional presentation and useful information can help " +
+        "businesses establish credibility. Customers are more likely to " +
+        "consider a company when they can clearly understand its services, " +
+        "experience and value proposition.\n\n";
+
+
+    article += "KEY AREAS TO CONSIDER\n";
+    article += "========================================\n\n";
+
+    article += "When planning " + topic.toLowerCase() +
+        ", businesses should consider several important areas. These can " +
+        "include customer requirements, quality, pricing, service reliability, " +
+        "communication and long-term business objectives.\n\n";
+
+    article += "Important areas for this article include: " +
+        points + ".\n\n";
+
+
+    article += "TIPS FOR BUSINESSES\n";
+    article += "========================================\n\n";
+
+    article += "1. Understand your target customers.\n";
+    article += "2. Clearly communicate your products and services.\n";
+    article += "3. Focus on genuine customer benefits.\n";
+    article += "4. Keep business information accurate and updated.\n";
+    article += "5. Monitor customer feedback and improve continuously.\n";
+    article += "6. Use relevant keywords naturally in online content.\n";
+    article += "7. Maintain consistent branding across marketing channels.\n\n";
+
+
+    article += "COMMON MISTAKES TO AVOID\n";
+    article += "========================================\n\n";
+
+    article += "Businesses should avoid creating content simply to fill a website. " +
+        "Articles should provide genuine information and answer questions " +
+        "that customers actually have. Keyword stuffing, exaggerated claims, " +
+        "unclear information and outdated content can reduce the usefulness " +
+        "of an article.\n\n";
+
+
+    article += "CONCLUSION\n";
+    article += "========================================\n\n";
+
+    article += topic + " can play an important role in helping businesses " +
+        "build visibility, communicate their expertise and provide useful " +
+        "information to customers. By focusing on quality, relevance and " +
+        "customer needs, businesses can create a stronger foundation for " +
+        "long-term growth.\n\n";
+
+    article += business + " provides " + businessType +
+        " solutions for businesses in " + location +
+        " and can help customers understand the available options and " +
+        "make informed decisions.\n\n";
+
+
+    article += "CALL TO ACTION\n";
+    article += "========================================\n\n";
+
+    article += cta;
+
+
+    document.getElementById("articleOutput").innerText = article;
+
+}
+
+
+function createTitle(topic, type, location) {
+
+    if (type === "How-To Guide") {
+        return "How to " + topic + ": A Practical Guide for Businesses in " + location;
+    }
+
+    if (type === "Listicle") {
+        return "10 Important Things Businesses Should Know About " + topic;
+    }
+
+    if (type === "Comparison") {
+        return topic + ": A Complete Business Comparison Guide";
+    }
+
+    if (type === "Tips and Advice") {
+        return topic + ": Practical Tips and Advice for Businesses";
+    }
+
+    if (type === "Business Guide") {
+        return "The Complete Business Guide to " + topic;
+    }
+
+    return topic + ": A Complete Guide for Businesses in " + location;
+}
+
+
+function copyArticle() {
+
+    const article = document.getElementById("articleOutput").innerText;
+
+    if (!article || article === "Your generated article will appear here.") {
+        alert("Please generate an article first.");
+        return;
+    }
+
+    navigator.clipboard.writeText(article)
+        .then(function() {
+            alert("Article copied to clipboard!");
+        })
+        .catch(function() {
+            alert("Unable to copy automatically. Please select and copy the article.");
+        });
+
+}
+
+
+function clearForm() {
+
+    document.getElementById("topic").value = "";
+    document.getElementById("business").value = "";
+    document.getElementById("businessType").value = "";
+    document.getElementById("location").value = "";
+    document.getElementById("audience").value = "";
+    document.getElementById("keywords").value = "";
+    document.getElementById("points").value = "";
+    document.getElementById("cta").value = "";
+
+    document.getElementById("articleOutput").innerText =
+        "Your generated article will appear here.";
+}
+
+</script>
+
+</body>
+</html>
